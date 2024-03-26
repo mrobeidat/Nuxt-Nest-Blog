@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: linear-gradient(
+    90deg,
+    rgb(87, 79, 237) 0%,
+    rgba(10, 10, 155, 0.493) 35%,
+    rgb(8, 63, 115) 100%
+  );
+}
+
+.nav {
+  backdrop-filter: blur(15px) brightness(70%) saturate(90%);
+  position: fixed;
+  width: 100vw;
+}
+
+h2 {
+  color: aliceblue !important;
+}
