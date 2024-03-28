@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Category } from 'src/articles/entities/category.entity';
+import { Category } from 'src/categories/entity/category.entity';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import {
@@ -16,7 +16,9 @@ export class CategoriesService {
   constructor(@InjectRepository(Category) private categoryRepository: Repository<Category>) { }
 
   async createCategory(category: CreateCategoryDto): Promise<void> {
-    await this.categoryRepository.save({ ...category });
+     
+   const  newCategory = await this.categoryRepository.create({ ...category });
+    await this.categoryRepository.save(newCategory);
   }
 
   async getCategories(): Promise<Category[]> {

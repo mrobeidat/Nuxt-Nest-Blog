@@ -1,18 +1,18 @@
-import { MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey } from "typeorm";
+import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
 
-export class ArticleMigration1711368225391 implements MigrationInterface {
+export class Article1711619089763 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'article',
+                name: 'articles',
                 columns: [
                     {
                         name: 'id',
-                        type: 'uuid',
+                        type: 'integer',
                         isPrimary: true,
                         isGenerated: true,
-                        generationStrategy: 'uuid',
+                        generationStrategy: 'increment',
                         isNullable: false,
                     },
                     {
@@ -32,8 +32,12 @@ export class ArticleMigration1711368225391 implements MigrationInterface {
                     },
                     {
                         name: 'categoryId',
-                        type: 'uuid',
+                        type: 'integer',
                         isNullable: true
+                    },   {
+                        name: 'userId',
+                        type: 'integer',
+                        isNullable: false
                     },
                     {
                         name: 'createdAt',
@@ -48,24 +52,34 @@ export class ArticleMigration1711368225391 implements MigrationInterface {
                         onUpdate: 'CURRENT_TIMESTAMP',
                         isNullable: false,
                     }
-
+                 
                 ],
             }),
         );
 
         await queryRunner.createForeignKey(
-            'article',
+            'articles',
             new TableForeignKey({
                 columnNames: ['categoryId'],
                 referencedColumnNames: ['id'],
-                referencedTableName: 'category',
+                referencedTableName: 'categories',
+                onDelete: 'CASCADE'
+            })
+        )
+
+        await queryRunner.createForeignKey(
+            'articles',
+            new TableForeignKey({
+                columnNames: ['userId'],
+                referencedColumnNames: ['id'],
+                referencedTableName: 'users',
                 onDelete: 'CASCADE'
             })
         )
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('article');
+        await queryRunner.dropTable('articles');
     }
-}
 
+}

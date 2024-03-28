@@ -1,19 +1,10 @@
-import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
-import { Match } from '../../utils/match.decorator';
+import { IsEmail, IsNotEmpty } from 'class-validator';
 
-export class SignUpDto {
-    @IsNotEmpty()
-    @IsEmail()
-    email: string;
+export class LoginDto {
+  @IsNotEmpty()
+  @IsEmail()
+  email: string;
 
-    @IsNotEmpty()
-    @IsString()
-    @Length(8)
-    password: string;
-
-    @IsNotEmpty()
-    @IsString()
-    @Length(8)
-    @Match('password')
-    passwordConfirm: string;
+  @IsNotEmpty()
+  password: string;
 }

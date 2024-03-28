@@ -1,7 +1,9 @@
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Category } from "./category.entity";
+// article.entity.ts
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Category } from "../../categories/entity/category.entity";
+import { User } from "../../auth/entity/user"; // Adjust the path as needed
 
-@Entity()
+@Entity('articles')
 export class Article {
     @PrimaryGeneratedColumn()
     id: number
@@ -15,12 +17,23 @@ export class Article {
     @Column()
     text?: string
 
+    @Column()
+    userId: number
+
+    @Column()
+    categoryId?: number
+
     @Column({ default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;
+
     @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
     updatedAt: Date;
 
     @ManyToOne(() => Category, category => category.articles)
-    category: Category;
+    @JoinColumn({name:'categoryId'})
+    category: Category[];
 
+    @ManyToOne(() => User, user => user.articles)
+    @JoinColumn({name:'userId'})
+    user: User;
 }

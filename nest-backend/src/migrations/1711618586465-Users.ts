@@ -1,39 +1,38 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
+import { UserRole } from "src/auth/entity/user";
+import { MigrationInterface, QueryRunner, Table } from "typeorm";
 
-export class ArticlesMigration1711453821341 implements MigrationInterface {
+export class Users1711618586465 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
             new Table({
-                name: 'article',
+                name: 'users',
                 columns: [
                     {
                         name: 'id',
-                        type: 'uuid',
+                        type: 'integer',
                         isPrimary: true,
                         isGenerated: true,
-                        generationStrategy: 'uuid',
+                        generationStrategy: 'increment',
                         isNullable: false,
                     },
                     {
-                        name: 'title',
+                        name: 'email',
+                        type: 'varchar',
+                        isUnique: true,
+                        isNullable: false,
+                    },
+                    {
+                        name: 'password',
                         type: 'varchar',
                         isNullable: false,
                     },
                     {
-                        name: 'description',
+                        name: 'userRole',
                         type: 'varchar',
                         isNullable: false,
-                    },
-                    {
-                        name: 'text',
-                        type: 'varchar',
-                        isNullable: false,
-                    },
-                    {
-                        name: 'categoryId',
-                        type: 'uuid',
-                        isNullable: true
+                        enum: [...Object.values(UserRole)],
+                        default: UserRole.USER,
                     },
                     {
                         name: 'createdAt',
@@ -48,24 +47,13 @@ export class ArticlesMigration1711453821341 implements MigrationInterface {
                         onUpdate: 'CURRENT_TIMESTAMP',
                         isNullable: false,
                     }
-
                 ],
             }),
         );
-
-        await queryRunner.createForeignKey(
-            'article',
-            new TableForeignKey({
-                columnNames: ['categoryId'],
-                referencedColumnNames: ['id'],
-                referencedTableName: 'category',
-                onDelete: 'CASCADE'
-            })
-        )
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('article');
+        await queryRunner.dropTable('users');
     }
 
 }

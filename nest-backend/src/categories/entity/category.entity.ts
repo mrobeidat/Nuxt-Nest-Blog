@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Article } from "./article.entity";
+import { Article } from "../../articles/entities/article.entity";
 
-@Entity()
+@Entity('categories')
 export class Category {
 
     @PrimaryGeneratedColumn()
@@ -10,11 +10,10 @@ export class Category {
     @Column()
     name?: string
 
-    // @CreateDateColumn({ name: 'created_at' })
-    // createdAt: Date;
-
-    // @UpdateDateColumn({ name: 'updated_at' })
-    // updatedAt: Date;
+    @Column({ default: () => 'CURRENT_TIMESTAMP' })
+    createdAt: Date;
+    @Column({ default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
+    updatedAt: Date;
 
     @OneToMany(() => Article, article => article.category, { cascade: true, eager: true })
     articles?: Article[]

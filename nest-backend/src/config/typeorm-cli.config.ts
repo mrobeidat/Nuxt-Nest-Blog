@@ -1,8 +1,9 @@
 import { DataSource } from 'typeorm';
 import { ConfigService } from '@nestjs/config';
-import { Category } from 'src/articles/entities/category.entity';
+import { Category } from 'src/categories/entity/category.entity';
 import { Article } from 'src/articles/entities/article.entity';
 import { config } from 'dotenv';
+import { User } from 'src/auth/entity/user';
 
 config();
 
@@ -15,7 +16,7 @@ export default new DataSource({
     username: configService.get<string>('DB_USERNAME'),
     password: configService.get<string>('DB_PASSWORD'),
     database: configService.get<string>('DB_NAME'),
-    entities: [Category, Article],
+    entities: [Category, Article, User],
     migrations: ['src/migrations/*'],
     logging: true,
     dropSchema: true,

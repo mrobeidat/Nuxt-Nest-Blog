@@ -10,14 +10,19 @@ import {
   IPaginationOptions,
 } from 'nestjs-typeorm-paginate';
 
-
 @Injectable()
 export class ArticlesService {
 
   constructor(@InjectRepository(Article) private articleRepository: Repository<Article>) { }
 
   async createArticle(article: CreateArticleDto): Promise<void> {
-    await this.articleRepository.save(article);
+    const newArticle = new Article();
+    newArticle.text = article.text;
+    newArticle.title = article.title;
+    newArticle.description = article.description;
+    newArticle.userId = article.userId;
+    newArticle.categoryId = article.categoryId;
+    await this.articleRepository.save(newArticle);
   }
 
   async getArticles(): Promise<Article[]> {
@@ -25,7 +30,7 @@ export class ArticlesService {
       relations: ['category'],
     })
   }
-  
+
   async paginate(options: IPaginationOptions): Promise<Pagination<Article>> {
     return await paginate<Article>(this.articleRepository, options);
   }
