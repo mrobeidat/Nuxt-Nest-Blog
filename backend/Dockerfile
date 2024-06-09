@@ -1,4 +1,4 @@
-FROM node:21.7.0
+FROM node:20.12.2
 
 ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
