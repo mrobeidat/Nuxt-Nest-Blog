@@ -22,7 +22,7 @@ export class ArticlesController {
     return await this.articlesService.paginate(paginationOptions);
   }
 
-  @UseGuards(AccessTokenGuard)
+  // @UseGuards(AccessTokenGuard)
   @Post()
   async createArticle(@Body() createArticleDto: CreateArticleDto) {
     return await this.articlesService.createArticle(createArticleDto);

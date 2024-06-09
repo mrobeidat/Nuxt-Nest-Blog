@@ -8,7 +8,7 @@ export class CategoryController {
   constructor(public categoriesService: CategoriesService) { }
 
   @Get()
-  async getCategories(@Query('page') page: number = 1, @Query('limit') limit: number = 2) {
+  async getCategories(@Query('page') page: number = 1, @Query('limit') limit: number = 30) {
     const paginationOptions = {
       page,
       limit,
